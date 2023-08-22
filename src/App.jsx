@@ -3,6 +3,14 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import Loading from './components/Loading';
 import { FaBeer } from "react-icons/fa";
+import Navbar from './components/Navbar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './components/pages/Home';
+import About from './components/pages/About';
+import Support from './components/pages/Support';
+import Contact from './components/pages/Contact';
+import Error from './components/pages/Error';
+import Login from './components/pages/Login';
 let url = 'https://jsonplaceholder.typicode.com/users';
 
 
@@ -14,14 +22,7 @@ function App() {
   const [student, setStudents] = useState([]);
   const [loading, setloading] = useState(false);
 
-  // const fetchData = async (url) => {
-  //   fetch(url)
-  //   .then((res) => res.json())
-  //     .then((data) => {
-  //       setStudents(data);
-        
-  // })
-  // }
+ 
 
   const fetchData = async (url) => {
     setloading(true);
@@ -54,30 +55,22 @@ function App() {
 
   return (
     <>
-      
-      <div>
-        {/* <button onClick={() => setloading(!loading)}>
-          {loading ? 'trueL' : 'falseL'}
-        </button> */}
-        {loading && <Loading />}
-      </div>
+      <BrowserRouter>
+      <Navbar />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/support' element={<Support />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='*' element={<Error />} />
+        </Routes>
+      </BrowserRouter>
 
-
-      <button onClick={() => dec(sanoq)}>dec</button>
-      <h2>{sanoq}</h2> 
-      {sanoq > 5 ? text : 'please wait'}
-      <button onClick={() => inc(sanoq)}>inc</button>
       
-      {student.map((item) => {
-        const { name, id } = item;
-        return (
-          <div key={id}>
-            <h3>{name}</h3>
-            <FaBeer />
-            <button onClick={() => removeStudent(id)}>delete</button>
-          </div>
-        )
-      })}
+   
+
+     
     </>
   )
 }
